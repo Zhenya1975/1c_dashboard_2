@@ -94,6 +94,25 @@ def selector_content_list(input_from_select, full_selector_list):
         print("что-то странное в функции selector_content")
     return result_select_list
 
+
+
+def next_payments_by_status_data_pie_chart(year_select):
+    next_payments_by_agreement_status_data = pd.read_csv(str(datafiles_path) + '/next_payments_by_agreement_status.csv')
+    next_payments_by_agreement_status_data['amount_cleaned'] = next_payments_by_agreement_status_data[
+        'amount'].str.replace(" ", "")
+    next_payments_by_agreement_status_data['amount_cleaned'] = next_payments_by_agreement_status_data['amount_cleaned'].astype(float)
+
+    full_year_list = next_payments_by_agreement_status_data['year'].unique()
+    year_select_list = selector_content_list(year_select, full_year_list)
+
+    next_payments_by_agreement_status_data_filtered = next_payments_by_agreement_status_data.loc[next_payments_by_agreement_status_data['year'].isin(year_select_list)]
+
+    next_payments_by_agreement_status_data_filtered = next_payments_by_agreement_status_data_filtered.copy()
+    next_payments_by_agreement_status_data_filtered_groupped = next_payments_by_agreement_status_data_filtered.groupby(
+        ['agreement_status'], as_index=False).agg({'amount_cleaned': 'sum'})
+
+    return next_payments_by_agreement_status_data_filtered_groupped
+
 # выпекаем датафрейм, который отдаст накопленный результат продаж 2022 года
 def next_payments_by_status_data(agreement_status_select):
     next_payments_by_agreement_status_data = pd.read_csv(str(datafiles_path) + '/next_payments_by_agreement_status.csv')

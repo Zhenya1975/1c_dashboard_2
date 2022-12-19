@@ -163,8 +163,11 @@ def init_callbacks_tab_1_pue_chart(dash_app):
         ]
     )
     def tab_1_pie_chart_status(agreement_year_select):
-        labels = ['Oxygen', 'Hydrogen', 'Carbon_Dioxide', 'Nitrogen']
-        values = [4500, 2500, 1053, 500]
+        pie_chart_data = dash_functions.next_payments_by_status_data_pie_chart(agreement_year_select)
+        labels = list(pie_chart_data['agreement_status'])
+        values = list(pie_chart_data['amount_cleaned'])
+        # labels = ['Oxygen', 'Hydrogen', 'Carbon_Dioxide', 'Nitrogen']
+        # values = [4500, 2500, 1053, 500]
 
         fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
         fig.update_layout(
