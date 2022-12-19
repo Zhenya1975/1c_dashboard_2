@@ -300,6 +300,25 @@ def product_select_data():
         product_list.append(product)
     return product_categories_options, product_list
 
+def next_payments_by_product_data(product_status_select):
+    next_payments_by_product_data = pd.read_csv(str(datafiles_path) + '/next_payments_by_products .csv')
+    full_products_list = product_select_data()[1]
+    product_select_list = selector_content_list(product_status_select, full_products_list)
+
+    next_payments_by_product_data = next_payments_by_product_data.copy()
+    next_payments_by_product_data_filtered = next_payments_by_product_data.loc[next_payments_by_product_data['product_type'].isin(product_select_list)]
+    # next_payments_by_product_data_filtered['amount_cleaned'] = next_payments_by_product_data_filtered[
+    #     'amount'].str.replace(" ", "")
+
+    # next_payments_by_product_data_filtered['amount_cleaned'] = next_payments_by_product_data_filtered[
+    #     'amount_cleaned'].astype(float)
+
+
+    next_payments_by_product_data_filtered_groupped = next_payments_by_product_data_filtered.groupby(
+        ['product_type', 'year'], as_index=False).agg({'amount': 'sum'})
+    # print(next_payments_by_product_data_filtered_groupped)
+    return next_payments_by_product_data_filtered_groupped
+
 
 def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
