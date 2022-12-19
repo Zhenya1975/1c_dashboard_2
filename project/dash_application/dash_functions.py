@@ -118,13 +118,17 @@ def next_payments_by_status_data(agreement_status_select):
     next_payments_by_agreement_status_data = pd.read_csv(str(datafiles_path) + '/next_payments_by_agreement_status.csv')
     full_status_list = next_payments_by_agreement_status_options()[1]
     product_select_list = selector_content_list(agreement_status_select, full_status_list)
-    next_payments_by_agreement_status_data_filtered = next_payments_by_agreement_status_data.loc[next_payments_by_agreement_status_data['agreement_status'].isin(product_select_list)]
+
+    next_payments_by_agreement_status_data_filtered = next_payments_by_agreement_status_data.copy()
+    next_payments_by_agreement_status_data_filtered = next_payments_by_agreement_status_data_filtered.loc[next_payments_by_agreement_status_data['agreement_status'].isin(product_select_list)]
+
 
     next_payments_by_agreement_status_data_filtered['amount'].str.strip()
     next_payments_by_agreement_status_data_filtered['amount_cleaned'] = next_payments_by_agreement_status_data_filtered['amount'].str.replace(" ", "")
 
     # next_payments_by_agreement_status_data_filtered['amount'].apply(lambda x: re.sub("[^0-9]", "", str(x))).astype(int)
     # print(next_payments_by_agreement_status_data_filtered)
+
     next_payments_by_agreement_status_data_filtered['amount_cleaned'] = next_payments_by_agreement_status_data_filtered['amount_cleaned'].astype(float)
     # print(next_payments_by_agreement_status_data_filtered.info())
     # первый год в списке
