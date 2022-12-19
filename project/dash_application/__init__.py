@@ -102,7 +102,7 @@ def create_dash_application(flask_app):
                           dbc.Row([
                               dbc.Col(
                                   children=[
-                                      html.H3('Интерактивный дашборд')
+                                      html.H3('Dashboard')
                                   ]
                               )
                           ]),
@@ -149,8 +149,31 @@ def create_dash_application(flask_app):
     init_callbacks(dash_app)
     init_callbacks_tab_1(dash_app)
     init_callbacks_tab_3(dash_app)
+    init_callbacks_tab_1_pue_chart(dash_app)
 
     return dash_app
+
+def init_callbacks_tab_1_pue_chart(dash_app):
+    @dash_app.callback(
+        [
+            Output('pie_chart_status', 'figure')
+        ],
+        [
+            Input('agreement_year_select', 'value')
+        ]
+    )
+    def tab_1_pie_chart_status(agreement_year_select):
+        labels = ['Oxygen', 'Hydrogen', 'Carbon_Dioxide', 'Nitrogen']
+        values = [4500, 2500, 1053, 500]
+
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+        fig.update_layout(
+            paper_bgcolor='WhiteSmoke',
+            template='seaborn',
+            title="Платежи по статусу договора",
+            # showlegend=True
+        )
+        return [fig]
 
 def init_callbacks_tab_1(dash_app):
     @dash_app.callback(

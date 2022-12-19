@@ -23,7 +23,7 @@ def tab_1_content():
                             },
                      children=[
                          dbc.Row([
-                             dbc.Col(width=9,
+                             dbc.Col(width=7,
                                      children=[
                                          html.Div([
                                              # html.H4('Информация о будущих платежах по договорам лизинга в разрезе статусов договора'),
@@ -46,7 +46,7 @@ def tab_1_content():
                                          ])
 
                                      ]),
-                             dbc.Col(width=3,
+                             dbc.Col(width=5,
                                      children=[
                                          dcc.Dropdown(
                                              options=year_options,
@@ -56,6 +56,11 @@ def tab_1_content():
                                              id='agreement_year_select',
                                              # optionHeight=50,
                                          ),
+                                         html.Div(style={'marginTop': '10px'},
+                                                  children=[
+                                                      dcc.Graph(id="pie_chart_status"),
+                                                  ]
+                                                  ),
                                      ]
 
                              )
