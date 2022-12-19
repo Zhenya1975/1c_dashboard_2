@@ -149,11 +149,68 @@ def create_dash_application(flask_app):
     init_callbacks(dash_app)
     init_callbacks_tab_1(dash_app)
     init_callbacks_tab_3(dash_app)
-    init_callbacks_tab_1_pue_chart(dash_app)
+    init_callbacks_tab_1_pie_chart(dash_app)
+    init_callbacks_tab_1_payments_by_products(dash_app)
 
     return dash_app
 
-def init_callbacks_tab_1_pue_chart(dash_app):
+def init_callbacks_tab_1_payments_by_products(dash_app):
+    @dash_app.callback(
+        [
+            Output('next_payments_by_products', 'figure')
+        ],
+        [
+            Input('product_select', 'value')
+        ]
+    )
+    def tab_1_payments_by_products(product_select):
+        fig = go.Figure()
+        animals = ['giraffes', 'orangutans', 'monkeys']
+        fig.add_trace(go.Bar(name='SF Zoo', x=animals, y=[20, 14, 23], text=["20", "14", "23"]))
+        fig.add_trace(go.Bar(name='LA Zoo', x=animals, y=[12, 18, 29], text=[12, 18, 29]))
+        fig.update_traces(
+            # texttemplate='%{text:.2s}',
+            textposition='auto'
+        )
+        fig.update_layout(
+            barmode='stack',
+            paper_bgcolor='WhiteSmoke',
+            template='seaborn',
+            title="Платежи по продуктам",
+            legend=dict(
+                orientation="h"
+            ),
+
+      )
+
+        # fig.add_trace(go.Waterfall(
+        #     x=[["2016", "2017", "2017", "2017", "2017", "2018", "2018", "2018", "2018"],
+        #        ["initial", "q1", "q2", "q3", "total", "q1", "q2", "q3", "total"]],
+        #     measure=["absolute", "relative", "relative", "relative", "total", "relative", "relative", "relative",
+        #              "total"],
+        #     y=[1, 2, 3, -1, None, 1, 2, -4, None],
+        #     base=1000
+        # ))
+        #
+        # fig.add_trace(go.Waterfall(
+        #     x=[["2016", "2017", "2017", "2017", "2017", "2018", "2018", "2018", "2018"],
+        #        ["initial", "q1", "q2", "q3", "total", "q1", "q2", "q3", "total"]],
+        #     measure=["absolute", "relative", "relative", "relative", "total", "relative", "relative", "relative",
+        #              "total"],
+        #     y=[1.1, 2.2, 3.3, -1.1, None, 1.1, 2.2, -4.4, None],
+        #     base=1000
+        # ))
+        #
+        # fig.update_layout(
+        #     waterfallgroupgap=0.5,
+        #     # waterfallmode='overlay',
+        #
+        # )
+
+        return [fig]
+
+
+def init_callbacks_tab_1_pie_chart(dash_app):
     @dash_app.callback(
         [
             Output('pie_chart_status', 'figure')
@@ -174,6 +231,10 @@ def init_callbacks_tab_1_pue_chart(dash_app):
             paper_bgcolor='WhiteSmoke',
             template='seaborn',
             title="Платежи по статусу договора",
+            legend=dict(
+                orientation="h"
+            )
+
             # showlegend=True
         )
         return [fig]

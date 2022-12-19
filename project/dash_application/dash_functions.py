@@ -287,7 +287,18 @@ def product_select_content():
     return product_categories_options
 
 
-
+def product_select_data():
+    next_payments_by_product_data = pd.read_csv(str(datafiles_path) + '/next_payments_by_products .csv')
+    full_product_list = next_payments_by_product_data['product_type'].unique()
+    product_categories_options = []
+    product_list = []
+    for product in full_product_list:
+        temp_dict = {}
+        temp_dict['label'] = product
+        temp_dict['value'] = product
+        product_categories_options.append(temp_dict)
+        product_list.append(product)
+    return product_categories_options, product_list
 
 
 def daterange(start_date, end_date):
