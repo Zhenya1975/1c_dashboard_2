@@ -106,14 +106,50 @@ def create_dash_application(flask_app):
                                   ]
                               )
                           ]),
+
+                          dbc.Card(
+                              [
+                                  dbc.CardHeader(
+                                      dbc.Tabs(
+                                          [
+                                              dbc.Tab(
+                                                  label="Будущие платежи",
+                                                  tab_id="tab-1",
+                                                  # tab_style={"color": "yellow"},
+                                                  # activeLabelClassName="test"
+                                                  # active_tab_style={"color": "orange"},
+                                                  # active_label_style={"color": "orange"}
+
+                                              ),
+                                              dbc.Tab(label="Заемные средства", tab_id="tab-2"),
+                                              dbc.Tab(label="Настройки", tab_id="tab-3"),
+                                          ],
+                                          id="card-tabs",
+                                          active_tab="tab-1",
+                                      )
+                                  ),
+                                  dbc.CardBody(html.P(id="card-content", className="card-text")),
+                              ]
+                          ),
+
+
+
+
+
+
+
+
+
+
+
                           # добавляем следующий ряд, в который уложим табы
                           html.Div([
 
                               dcc.Tabs(
                                   id="tabs-with-classes",
                                   value='tab_1',
-                                  parent_className='custom-tabs',
-                                  className='custom-tabs-container',
+                                  # parent_className='custom-tabs',
+                                  # className='custom-tabs-container',
                                   children=[
                                       tab_1.tab_1_content(),
                                       # tab_general_market_position.tab_general_market_position(),
@@ -132,7 +168,10 @@ def create_dash_application(flask_app):
 
 
             fluid=True,
-            className="dbc"
+            className="dbc",
+            style = {
+                        "min-width": "850px",
+                    },
             # className='custom_container'
         )
     )
